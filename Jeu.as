@@ -64,11 +64,7 @@
             LevelsConteneur.addChild(level);
             Levels_Tab.push(level);
 
-           //Level.targetHeight = Global.HEIGHT / Global.NOMBRE_NIVEAUX;
-
             ActivateLevelListeners(level, true);
-			
-			//RePlaceAll_Y();
         }
 
         private function RemoveLevel(level:Level):void {
@@ -76,9 +72,8 @@
 
             level.dispatchEvent(new Event(Level.EVENT_TERMINATE));
 
-            TweenMax.delayedCall(2, KillLevel, [level]);
-			
-			//RePlaceAll_Y();
+            TweenMax.delayedCall(0.4, KillLevel, [level]);
+
         }
 
         private function ActivateLevelListeners(level:Level, yes:Boolean):void {
@@ -93,21 +88,8 @@
                 level.removeEventListener(Level.EVENT_GOT_GOODIE, GotGoodie);
                 level.removeEventListener(Level.EVENT_GOT_BADIE, GotBaddie);
             }
-        }
+        }		
 		
-		//private function RePlaceAll_Y():void {
-			//var nbr:int = Levels_Tab.length;
-//
-            //for (var i:String in Levels_Tab) {
-				//Levels
-                //var level:Level = Levels_Tab[i];
-				//level.targetY = int(i) * Level.targetHeight;
-                //TweenMax.to(level, 1, { delay:(nbr - int(i)) * 0.05, height:Level.targetHeight, y:level.targetY, ease:Elastic.easeOut } );
-				//level.height = Level.targetHeight;
-				//level.y = level.targetY;
-				//}
-		//}
-
         public function get Pause():Boolean { return $pause; }
 
         public function set Pause(value:Boolean):void {
@@ -135,9 +117,12 @@
             if (!Pause) {
 				nbFrames++;
 				
-				if (nbFrames % 500 == 0)
+				//Fonction gérant la vitesse du niveau.
+				//Elle augmente de plus en plus lentement
+				if (nbFrames % (Vitesse * 100) == 0)
 				{
 					Vitesse++;
+					trace(Vitesse);
 				}
 				
 				Score += Vies;
@@ -180,7 +165,7 @@
 
         private function LevelLost(evt:Event):void {
             TerminateLevel(evt);
-            TweenMax.fromTo(this, 0.2, {removeTint:true}, { yoyo:true, repeat:1, colorTransform: { tint:0xcff0000, tintAmount:0.5 }} ); //Besoin d'un fromTo sinon problème d'overwrite
+            TweenMax.fromTo(evt.currentTarget, 0.2, {removeTint:true}, { yoyo:true, repeat:1, colorTransform: { tint:0xcff0000, tintAmount:0.5 }} ); //Besoin d'un fromTo sinon problème d'overwrite
 	
 			Vies--;
 			

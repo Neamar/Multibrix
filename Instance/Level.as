@@ -64,12 +64,7 @@
         /**
          * La balle du jeu
          */
-        public var Balle:Sprite = new Sprite();
-
-        /**
-         * La hauteur, utilisée en variable de retenue pour les setter et getters associés height.
-         */
-        //private var _height:Number = Global.HEIGHT/Global.NOMBRE_NIVEAUX;
+        public var Balle:Sprite = new Sprite();     
 
         /**
          * La liste des obstacles qui composent le niveau
@@ -99,17 +94,7 @@
 		/**
 		 * True si le level est en TERMINATE
 		 */
-		private var estTerminate:Boolean = false;
-		
-		/**
-         * height cible lors d'un Tween.
-         */
-		//public static var targetHeight:int;
-		
-		/**
-         * y cible lors d'un Tween.
-         */
-		//public var targetY:int;
+		private var estTerminate:Boolean = false;		
 
         /**
          * Constructeur du niveau. Initialise la variable ObstaclesContainer et demande la première génération des obstacles.
@@ -120,13 +105,17 @@
 			GBHandler = new GoodBadieHandler(this);
 			
 			//Définition du terrain
-            NombreColonnes = 30;// Global.WIDTH / Global.CaseTaille;       
+            NombreColonnes = Math.floor(Global.WIDTH / Global.CaseTaille);       
 			//height = Global.HEIGHT / Global.NOMBRE_NIVEAUX;			
             Obstacles = new Vector.<Vector.<Brick> >();
             majTerrain();
 
             addChild(ObstaclesContainer);
 
+			//Bordure			
+			this.graphics.lineStyle(1, Global.RED);
+			this.graphics.drawRect(0, 0, Global.WIDTH, height);
+			
 
 			//Dessin de la balle
 			//var Dessin:Shape = new Shape();
@@ -220,35 +209,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
         //GESTION DE LA TAILLE DU NIVEAU
-
-        ///**
-         //* Règle la nouvelle taille du niveau. Le scaleX est automatiquement ajusté à scaleY
-         //* @param La nouvelle taille.
-         //*/
-        //public override function set height(val:Number):void
-        //{
-            //Enregistrer la nouvelle taille et contraindre à garder un affichage proprotionné
-            //super.height = _height = val;
-            //this.scaleX = this.scaleY;
-//
-            //Màj le nombre de colonnes
-            //NombreColonnes = Global.WIDTH / (Global.CaseTaille * scaleX);
-			//
-			//Bordure
-			//if (!this.estTerminate)
-			//{
-				//this.graphics.clear();
-				//this.graphics.lineStyle(1, Global.RED);
-				//this.graphics.drawRect(0, 0, Global.WIDTH / scaleX, Global.NOMBRE_ETAGES_NIVEAU * Global.CaseTaille);
-			//}
-			//trace("e", val);
-        //}
-//
-        ///**
-         //* Récupère la taille
-         //* @return La taille
-         //*/
-        //public override function get height():Number { return _height; }
 
         /**
          * Récupérer le premier bloc dans la colonne passée en paramètre, utile pour connaitre ses coordonnées x.
@@ -416,7 +376,7 @@
             && getBrick(Balle.x + (Global.CaseTaille / 2 - Global.DELTA_ERR), Balle_y - Global.CaseTaille) == null)
             {
                 Balle_y -= Global.CaseTaille;
-                TweenMax.to(Balle, Global.TEMPS_DEPLACEMENT / Jeu.JeuActuel.Vitesse, { y:Balle_y } );
+                TweenMax.to(Balle, Global.TEMPS_DEPLACEMENT / Math.min(5, Jeu.JeuActuel.Vitesse), { y:Balle_y } );
             }
         }
 
@@ -435,7 +395,7 @@
             && getBrick(Balle.x + (Global.CaseTaille/2 - Global.DELTA_ERR), Balle_y + Global.CaseTaille) == null)
             {
                 Balle_y += Global.CaseTaille;
-                TweenMax.to(Balle, Global.TEMPS_DEPLACEMENT / Jeu.JeuActuel.Vitesse, { y:Balle_y } );
+                TweenMax.to(Balle, Global.TEMPS_DEPLACEMENT / Math.min(5, Jeu.JeuActuel.Vitesse), { y:Balle_y } );
             }
         }
 
@@ -456,9 +416,7 @@
          */
         public function ajouterFrame(e:Event):void
         {
-			this.graphics.clear();
-			this.graphics.lineStyle(1, Global.RED);
-			this.graphics.drawRect(0, 0, 200, 200);
+			
 			
             DerniereAction++;
             //Par défaut, ne rien faire sauf si on atteint la cadence nécessaire

@@ -79,7 +79,7 @@
             Face1.transform.matrix3D = mat3D;
 
             //Face2 : Jeu
-            var Face2:Face = new Face(0x000000, Cube.JeuConteneur);
+            var Face2:Face = new Face(0xFFFFFF, Cube.JeuConteneur);
             Cube.Menu_Pause.x = -Global.WIDTH / 2;
             Cube.Menu_Pause.y = -Global.HEIGHT / 2;
             Cube.Menu_Pause.Cont = Face2;

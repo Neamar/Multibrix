@@ -24,13 +24,8 @@
         public function Brick(Parent:Sprite,x:int,y:int)
         {
 
-            Parent.addChild(this);
-            this.graphics.lineStyle(1, Global.WHITE);
-			this.graphics.beginFill(Global.BLACK);
-            this.graphics.drawRect(0, 0, Global.CaseTaille, Global.CaseTaille);
-			//trace(Global.CaseTaille, Global.CaseTaille);
-			//var img_nuage:Bitmap = new Global.Img_Nuage1();
-			//addChild(img_nuage);
+            Parent.addChild(this);           
+			addChild(new Global.Img_Nuage1());
 			
 
             this.x = x;
