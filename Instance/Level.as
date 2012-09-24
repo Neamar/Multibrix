@@ -1,6 +1,6 @@
 ﻿package Instance
 {
-    import com.greensock.data.GlowFilterVars;
+    //import com.greensock.data.GlowFilterVars;
 	import flash.display.GradientType;
 	import flash.display.Shape;
     import flash.display.Sprite;
@@ -346,10 +346,10 @@
                 }
                 else if (Math.random() < BadieDensity)
                 {
-                    i = Math.floor(4 * Math.random());
-                    while (NouvelleColonne[i] != null) { i = Math.floor(4 * Math.random()); }
+                    i = Math.floor(Global.NombreLignes * Math.random());
+                    while (NouvelleColonne[i] != null) { i = Math.floor(Global.NombreLignes* Math.random()); }
 
-                    NouvelleColonne[i] = new GoodBadDieDisplay(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseLongueur * 2, i * Global.CaseHauteur,NouvelleColonne, Global.BADIE);
+                    NouvelleColonne[i] = new GoodBadDieDisplay(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseLongueur * 2, i * Global.CaseHauteur, NouvelleColonne, Global.BADIE);
                 }
             }
         }

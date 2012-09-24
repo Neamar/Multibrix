@@ -28,14 +28,10 @@
         private var $pause:Boolean = false;
 
         private var Levels_Tab:Vector.<Level> = new Vector.<Level>;
-		private var LevelSelected:Level = null;
 		
 		public static var JeuActuel:Jeu;
-		public static var aBouge:Boolean = false;
 		
 		private var GBHandler:GoodBadieJeuHandler;
-		
-		private var ImageClavier:Bitmap=null;
 		
 		private var $score:int = 0;
 		private var $vie:int = 4;
@@ -45,7 +41,6 @@
 
 
         public function Jeu() {
-            AddLevelTimely();
             Cube.JeuConteneur.addChild(this);
 			addChild(LevelsConteneur);
 			addChild(TextesConteneur);
@@ -58,14 +53,14 @@
 			
 			HUD.TheHUD = new HUD();
 			addChild(HUD.TheHUD);
-			
-			SelectNewLevel(Levels_Tab[0], false);
 
             //Event
             addEventListener(Event.ENTER_FRAME, Event_Iterate);
             stage.addEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
-			stage.addEventListener(MouseEvent.MOUSE_WHEEL, Wheel);
-			stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+			
+			AddLevel();
+			AddLevel();
+			AddLevel();
         }
 
         private function AddLevel():void {
@@ -85,13 +80,6 @@
         private function RemoveLevel(level:Level):void {
             //Level
             var index:int = MyTools.RemoveFromVector(level, Levels_Tab);
-			
-			if (level == LevelSelected)
-			{
-				if ( Levels_Tab.length == 0)
-					AddLevel();
-				SelectNewLevel(Levels_Tab[index > 0 ? index - 1 : 0], false);
-			}
 
 			Level.targetHeight = Global.HEIGHT / Levels_Tab.length;
 
@@ -116,22 +104,6 @@
                 level.removeEventListener(Level.EVENT_GOT_GOODIE, GotGoodie);
                 level.removeEventListener(Level.EVENT_GOT_BADIE, GotBaddie);
             }
-        }
-		
-        private function AddLevelTimely(addLevel:Boolean=true):void {
-			var nombre_Level:int = Levels_Tab.length;
-			
-            if (addLevel && nombre_Level < MAX_LEVELS)
-                AddLevel();
-			
-			if (!aBouge)
-				return;//On ajoute pas de niveaux tant qu'on n'a pas bougé une fois
-			
-			var next_Level_Time:Number = LEVEL_TIME[nombre_Level];
-			TweenMax.killDelayedCallsTo(AddLevelTimely);
-            TweenMax.delayedCall(next_Level_Time, AddLevelTimely);
-			
-			trace('Ajout niveau');
         }
 		
 		private function RePlaceAll_Y():void {
@@ -187,25 +159,7 @@
                 stage.dispatchEvent(new Event(Level.EVENT_ITERATE));
 			}
         }
-		
-		private function MouseMove(e:MouseEvent):void {
-			if (mouseY < Global.HEIGHT)
-			{
-				var newLevelSelected:Level = Levels_Tab[int(mouseY / (Global.HEIGHT / Levels_Tab.length))];
-				
-				if (newLevelSelected != LevelSelected) {
-					SelectNewLevel(newLevelSelected, true);
-				}
-			}
-		}
-		
-		private function SelectNewLevel(newLevelSelected:Level, deselectOldOne:Boolean = true):void {
-			if (deselectOldOne) {
-				LevelSelected.filters = [];
-			}
-			newLevelSelected.filters = [new GlowFilter(Global.WHITE, 1, 10, 10, 3)];
-			LevelSelected = newLevelSelected;
-		}
+
 
         private function KeyDown(evt:KeyboardEvent):void {
 			//Controles
@@ -224,28 +178,10 @@
             }
         }
 		
-		private function Wheel(evt:MouseEvent):void {
-			//Controles
-			var eventString:String = '';
-			if (evt.delta > 0)
-				eventString = Level.EVENT_UP;
-			else if (evt.delta < 0)
-				eventString = Level.EVENT_DOWN;
-			
-			if (eventString != '')
-				dispatch_move(eventString);
-		}
-		
 		private function dispatch_move(evt:String):void
 		{
 			for each (var level:Level in Levels_Tab) {
 				level.dispatchEvent(new Event(evt));
-			}
-			
-			if (!aBouge)
-			{
-				aBouge = true;
-				AddLevelTimely(false);//Activer le timer au premier mouvement
 			}
 		}
 
@@ -281,14 +217,11 @@
 
         private function KillLevel(level:Level):void {
             level.dispatchEvent(new Event(Level.EVENT_KILL));
-			AddLevelTimely(false);//Réinitialiser le timer, sans ajouter de niveau
         }
 
         public function Destroy():void {
             removeEventListener(Event.ENTER_FRAME, Event_Iterate);
             stage.removeEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
-			stage.removeEventListener(MouseEvent.MOUSE_WHEEL, Wheel);
-			stage.removeEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
 			
 			for each (var level:Level in Levels_Tab) {
                 ActivateLevelListeners(level, false);
