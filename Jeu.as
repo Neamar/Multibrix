@@ -10,7 +10,6 @@
 	import flash.filters.GlowFilter;
 	import flash.ui.Keyboard;
 	import Instance.Level;
-	import Interface.BonusText;
 	import Interface.Cube;
 	import Interface.HUD;
 	import tools.MyTools;
@@ -33,13 +32,11 @@
 		public var Vies:int = Global.NOMBRE_NIVEAUX;
 		
 		private var LevelsConteneur:Sprite = new Sprite();
-		public var TextesConteneur:Sprite = new Sprite();
 
 
         public function Jeu() {
             Cube.JeuConteneur.addChild(this);
 			addChild(LevelsConteneur);
-			addChild(TextesConteneur);
 
             Jeu.JeuActuel = this;
 			
@@ -104,13 +101,7 @@
                 var level:Level = Levels_Tab[i];
 				level.targetY = int(i) * Level.targetHeight;
                 TweenMax.to(level, 1, { delay:(nbr - int(i)) * 0.05, height:Level.targetHeight, y:level.targetY, ease:Elastic.easeOut } );
-				
-				//BonusText
-				var BTy:int = BonusText.getY(level);
-				for each (var BT:BonusText in BonusText.BonusText_Tab[level]) {
-					TweenMax.to(BT, 0.5, { y:BTy } );
 				}
-            }
 		}
 
         public function get Pause():Boolean { return $pause; }

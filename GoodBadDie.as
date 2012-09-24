@@ -4,7 +4,7 @@
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	import Instance.Level;
-	import Interface.BonusText;
+
 	/**
 	 * ...
 	 * @author Nicolas BARRET
@@ -40,9 +40,6 @@
 					levelsConcerned[levelConcerned].bonusText.PrepareToDestroy(); //Detruit l'ancien BonusText
 				}
 			}
-			
-			//Bonus Text
-			levelsConcerned[levelConcerned].bonusText = new BonusText(Name, isGoodie, levelConcerned, (Duration > 0?Duration:2));
 			
 			//End
 			if (Duration != 0) {
