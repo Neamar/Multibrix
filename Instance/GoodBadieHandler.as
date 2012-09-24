@@ -16,7 +16,6 @@
 		public function GoodBadieHandler(Parent:Level)
 		{
 			this.Parent = Parent;
-
 		}
 		
 		/**

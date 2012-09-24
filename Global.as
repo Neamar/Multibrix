@@ -30,7 +30,7 @@
         /**
          * Concernant les niveaux :
          */
-        public static var NombreLignes:int = 3;
+        public static var NOMBRE_ETAGES_NIVEAU:int = 3;
 		public static var Cadence:Number = 1;
         public static var Densite:Number = 0.5;
 

@@ -20,11 +20,7 @@
      * @author Nicolas BARRET
      */
     public class Jeu extends Sprite {
-        private const NEW_LEVEL_TIME:Number = 1;
-        private const MAX_LEVELS:int = 10;
-
         private const KEYS_CODE_TAB:Object = { (int(Keyboard.UP)):Level.EVENT_UP, (int(Keyboard.DOWN)):Level.EVENT_DOWN };
-		private const LEVEL_TIME:Array = [1, 4, 6, 8, 10, 15, 30, 45, 90];
         private var $pause:Boolean = false;
 
         private var Levels_Tab:Vector.<Level> = new Vector.<Level>;

@@ -144,7 +144,7 @@
 			
 			//Par défaut, la bille est placée à trois colonnes du départ
             Balle.x = 3 * Global.CaseLongueur + Global.CaseLongueur / 2;
-            Balle.y = Balle_y = (Math.round(Global.NombreLignes / 2) + .5) * Global.CaseHauteur;
+            Balle.y = Balle_y = (Math.round(Global.NOMBRE_ETAGES_NIVEAU / 2) + .5) * Global.CaseHauteur;
 			Balle.graphics.lineStyle(2,Global.BLUE);
             //Balle.graphics.moveTo(0, 0);
             //Balle.graphics.lineTo(20, 0);
@@ -164,7 +164,7 @@
 
         /**
          * Détruit le niveau et tente de laisser une mémoire relativement propre.
-         * Appélé sur le dispatch de EVENT_KILL
+         * Appelé sur le dispatch de EVENT_KILL
          */
         private function destroy(e:Event):void
         {
@@ -224,7 +224,7 @@
 
             TweenMax.allTo(ToMove, 2, {
                 x: -ObstaclesContainer.x + (NombreColonnes*Global.CaseLongueur) + 20,
-                y:(Global.NombreLignes * Global.CaseHauteur) / 2 - Global.CaseHauteur / 2,
+                y:(Global.NOMBRE_ETAGES_NIVEAU * Global.CaseHauteur) / 2 - Global.CaseHauteur / 2,
                 rotation:360
                 } );
 
@@ -272,7 +272,7 @@
 			{
 				this.graphics.clear();
 				this.graphics.lineStyle(1, Global.RED);
-				this.graphics.drawRect(0, 0, Global.WIDTH / scaleX, Global.NombreLignes * Global.CaseHauteur);
+				this.graphics.drawRect(0, 0, Global.WIDTH / scaleX, Global.NOMBRE_ETAGES_NIVEAU * Global.CaseHauteur);
 			}
         }
 
@@ -323,13 +323,13 @@
 
             while(Obstacles.length < Math.floor(NombreColonnes/2) + 2 && Obstacles.length<33)
             {
-                var NouvelleColonne:Vector.<Brick> = new Vector.<Brick>(Global.NombreLignes, true);//Nouvelle colonne, avec NombreLignes items : pas plus, pas moins.
+                var NouvelleColonne:Vector.<Brick> = new Vector.<Brick>(Global.NOMBRE_ETAGES_NIVEAU, true);//Nouvelle colonne, avec NombreLignes items : pas plus, pas moins.
                 Obstacles.push(NouvelleColonne);//Le pousser dans les obstacles.
                 i = 0;
-                while (i==0 || Math.random() < Densite && i < Global.NombreLignes-1)
+                while (i==0 || Math.random() < Densite && i < Global.NOMBRE_ETAGES_NIVEAU-1)
                 {
                     //Rajouter un item bloquant.
-                    var y:int = Math.floor(Global.NombreLignes * Math.random());
+                    var y:int = Math.floor(Global.NOMBRE_ETAGES_NIVEAU * Math.random());
                     if (NouvelleColonne[y] == null)//Si la colonne est vide
                     {
                         i++;
@@ -339,15 +339,15 @@
 
                 if (Math.random() < GoodieDensity)
                 {
-                    i = Math.floor(Global.NombreLignes * Math.random());
-                    while (NouvelleColonne[i] != null) { i = Math.floor(Global.NombreLignes * Math.random()); }
+                    i = Math.floor(Global.NOMBRE_ETAGES_NIVEAU * Math.random());
+                    while (NouvelleColonne[i] != null) { i = Math.floor(Global.NOMBRE_ETAGES_NIVEAU * Math.random()); }
 
                     NouvelleColonne[i] = new GoodBadDieDisplay(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseLongueur * 2, i * Global.CaseHauteur,NouvelleColonne,Global.GOODIE);
                 }
                 else if (Math.random() < BadieDensity)
                 {
-                    i = Math.floor(Global.NombreLignes * Math.random());
-                    while (NouvelleColonne[i] != null) { i = Math.floor(Global.NombreLignes* Math.random()); }
+                    i = Math.floor(Global.NOMBRE_ETAGES_NIVEAU * Math.random());
+                    while (NouvelleColonne[i] != null) { i = Math.floor(Global.NOMBRE_ETAGES_NIVEAU* Math.random()); }
 
                     NouvelleColonne[i] = new GoodBadDieDisplay(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseLongueur * 2, i * Global.CaseHauteur, NouvelleColonne, Global.BADIE);
                 }
@@ -378,23 +378,13 @@
             var i:int = (Gx - (ObstaclesContainer.x + GetAnItemIn(Obstacles[0]).x)) / Global.CaseLongueur;
             if (PasseMuraille || i % 2 == 1)
                 return null;
-            else if (i >= 0 && Gy > 0 && Gy < Global.NombreLignes * Global.CaseHauteur)
+            else if (i >= 0 && Gy > 0 && Gy < Global.NOMBRE_ETAGES_NIVEAU * Global.CaseHauteur)
             {
                 var Devant:Brick = Obstacles[i / 2][Math.floor(Gy / Global.CaseHauteur)];
-				
-				//if (Devant == null)
-				//{//Si c'est nul devant, il faut quand même vérifier que les bords de la balle ne frottent pas.
-					//if (Math.floor(Gy / Global.CaseHauteur) != Math.floor((Gy + Global.CaseHauteur / 2 - 1) / Global.CaseHauteur))
-					//{
-						//Gy = Math.floor((Gy + Global.CaseHauteur / 2 - 1) / Global.CaseHauteur) * Global.CaseHauteur + 1;
-						//Devant = Obstacles[i / 2][Math.floor(Gy + Global.CaseHauteur / 2 - 1)];
-					//}
-				//}
 				
 				//On vient de prendre un goodie/badie.
 				if (Devant != null && Devant is GoodBadDieDisplay)
 				{
-
 					if ((Devant as GoodBadDieDisplay).IsGoodie)
 						this.dispatchEvent(new Event(Level.EVENT_GOT_GOODIE));
 					else
@@ -402,7 +392,6 @@
 					Devant.destroy(Brick.DESTROY_WITH_ANIMATION);
 					Devant = null;
 				}
-				
                 return Devant;
             }
             else
@@ -475,7 +464,7 @@
             //-on n'est pas tout en bas
             //-devant, c'est libre
             //-derrière, c'est libre (ne pas descendre quand on est dans un goulet)
-            if (Balle_y < (Global.NombreLignes - 1) * Global.CaseHauteur
+            if (Balle_y < (Global.NOMBRE_ETAGES_NIVEAU - 1) * Global.CaseHauteur
             && getBrick(Balle.x - (Global.CaseLongueur / 2 - Global.DELTA_ERR), Balle_y + Global.CaseHauteur) == null
             && getBrick(Balle.x + (Global.CaseLongueur/2 - Global.DELTA_ERR), Balle_y + Global.CaseHauteur) == null)
             {
@@ -512,54 +501,6 @@
                 DerniereAction -= Cadence;
             }
         }
-		
-		
-		///////////////////////////////////////////////////////////////////////////////////////////////
-        //GESTION DES GOODBADIES INTERNES. NÉCESSITE D'ÊTRE DANS LEVEL POUR AVOIR ACCÈS AUX PROPRIÉTÉS PRIVÉES.
-		
-		/**
-		 * Pilote automatiquement la balle pour la positionner dans un axe correct
-		 */
-		public function goodie_play_auto(e:Event = null):void
-		{
-			if (getOnlyBrick(Balle.x + Global.CaseLongueur, Balle_y) != null)
-			{
-				for (var i:int = 0; i < Global.NombreLignes; i++)
-				{
-					if (Balle_y + i * Global.CaseHauteur < Global.NombreLignes * Global.CaseHauteur
-						&& getOnlyBrick(Balle.x + Global.CaseLongueur, Balle_y + i * Global.CaseHauteur) == null)
-					{
-						dispatchEvent(new Event(Level.EVENT_DOWN));
-						break;
-					}
-					else if (Balle_y - i*Global.CaseHauteur > 0
-						&& getOnlyBrick(Balle.x + Global.CaseLongueur, Balle_y - i * Global.CaseHauteur) == null)
-					{
-						dispatchEvent(new Event(Level.EVENT_UP));
-						break;
-					}
-				}
-			}
-		}
-		/**
-		 * Attire la balle vers le centre plus rapidement
-		 */
-		public function goodie_play_attraction(e:Event = null):void
-		{
-			deplacerBalle();
-		}
-		
-		/**
-		 * Empêche la balle d'aller trop en arrière
-		 */
-		public function goodie_play_invincible(e:Event = null):void
-		{
-			var Limite:int = Global.WALL_INVINCIBLE_x * NombreColonnes * Global.CaseLongueur + Global.CaseLongueur / 2;
-			if (Balle.x == Limite)
-				Balle.x = Limite + 1;
-			else if (Balle.x < Limite)
-				TweenMax.to(Balle,.7,{x:Limite + 1});
-		}
     }
 }
 
