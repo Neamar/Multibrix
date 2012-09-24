@@ -41,7 +41,6 @@
 		private var $vie:int = 4;
 		
 		private var LevelsConteneur:Sprite = new Sprite();
-		//private var LettresConteneur:Sprite = new Sprite();
 		public var TextesConteneur:Sprite = new Sprite();
 
 
@@ -49,7 +48,6 @@
             AddLevelTimely();
             Cube.JeuConteneur.addChild(this);
 			addChild(LevelsConteneur);
-			//addChild(LettresConteneur);
 			addChild(TextesConteneur);
 
             Jeu.JeuActuel = this;
@@ -68,13 +66,11 @@
             stage.addEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
 			stage.addEventListener(MouseEvent.MOUSE_WHEEL, Wheel);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
-			
-			animation(0)
         }
 
         private function AddLevel():void {
             //Level
-            var level:Level = new Level();							//level.GBHandler.goodie_enable_auto();
+            var level:Level = new Level();
             level.y = Global.HEIGHT;
             LevelsConteneur.addChild(level);
             Levels_Tab.push(level);
@@ -282,26 +278,6 @@
         private function TerminateLevel(evt:Event):void {
             RemoveLevel(evt.currentTarget as Level);
         }
-		
-		//Animation du clavier
-		private function animation(etape:int):void
-		{
-			var Liste:Array = [Global.Img_Arrows_NORMAL, Global.Img_Arrows_DOWN, Global.Img_Arrows_NORMAL, Global.Img_Arrows_UP];
-			
-			if (ImageClavier != null && contains(ImageClavier))
-				removeChild(ImageClavier);
-					
-			if (!aBouge)
-			{
-				ImageClavier = new Liste[etape];
-				
-				addChild(ImageClavier);
-				ImageClavier.y = (Global.HEIGHT - ImageClavier.height) / 2;
-				ImageClavier.x = .8 * Global.WIDTH;
-				
-				TweenMax.delayedCall(.4, animation, [(etape + 1) % Liste.length]);
-			}
-		}
 
         private function KillLevel(level:Level):void {
             level.dispatchEvent(new Event(Level.EVENT_KILL));

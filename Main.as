@@ -27,10 +27,10 @@ package {
             new Cube(stage);
             MochiServices.connect("e52a0665955cf6e6", Cube.HighScore);
 
-            //La ligne miracle, que j'en ai chiï¿½ ï¿½ trouver la premiï¿½re fois ^^ (j'plaisante).
-            //Bizarrement, ça marche pas la premiï¿½re fois, je pense quand il communique avec le serveur pour la premiï¿½re fois.
+            //La ligne miracle, que j'en ai chié à trouver la première fois ^^ (j'plaisante).
+            //Bizarrement, ça marche pas la première fois, je pense quand il communique avec le serveur pour la première fois.
             //Il faut donc lancer deux fois le flash player, et si la pub ne s'affiche toujours pas,
-            //quitter flash ET flashdevelop, puis le relancer. Normalement ï¿½a fonctionne :)
+            //quitter flash ET flashdevelop, puis le relancer. Normalement ça fonctionne :)
 
             TweenMax.delayedCall(0, startGame);
         }

@@ -54,15 +54,6 @@
 		/**
 		 * Assets
 		 */
-		[Embed(source="Assets/Arrows_NORMAL.png")]
-		public static const Img_Arrows_NORMAL:Class;
-		
-		[Embed(source="Assets/Arrows_UP.png")]
-		public static const Img_Arrows_UP:Class;
-		
-		[Embed(source="Assets/Arrows_DOWN.png")]
-		public static const Img_Arrows_DOWN:Class;
-		
 		[Embed(source="Assets/IcySun & Neamar Logo.png")]
 		public static const Img_Logo:Class;
     }
