@@ -14,6 +14,8 @@
          * Paramètre de la fonction destroy pour fair eune animation sur la destruction.
          */
         public static var DESTROY_WITH_ANIMATION:Boolean = false;
+		
+		private const Img_Nuages:Array = [Global.Img_Nuage1, Global.Img_Nuage2, Global.Img_Nuage3];
 
         /**
          * Crée une nouvelle brique qui sera affichée dans le niveau
@@ -25,7 +27,7 @@
         {
 
             Parent.addChild(this);           
-			addChild(new Global.Img_Nuage1());
+			addChild(new (Img_Nuages[int(Math.random()*Img_Nuages.length)]));
 			
 
             this.x = x;

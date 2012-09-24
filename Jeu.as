@@ -125,7 +125,7 @@
 					trace(Vitesse);
 				}
 				
-				Score += Vies;
+				Score += Vies * Vitesse;
                 stage.dispatchEvent(new Event(Level.EVENT_ITERATE));
 			}
         }
@@ -168,21 +168,21 @@
             TweenMax.fromTo(evt.currentTarget, 0.2, {removeTint:true}, { yoyo:true, repeat:1, colorTransform: { tint:0xcff0000, tintAmount:0.5 }} ); //Besoin d'un fromTo sinon problème d'overwrite
 	
 			Vies--;
-			
-			//Vies
-			if (Vies == 0) {
-				Destroy();
-				Cube.gotoHighScoreFromJeu(Score); //Obligé de mettre après, sinon le destroy killAll !
-			}
         }
 		
-		//Ordre des evènements : Terminate puis Kill
+		//Ordre des evènements : Terminate pnuis Kill
         private function TerminateLevel(evt:Event):void {
             RemoveLevel(evt.currentTarget as Level);
         }
 
         private function KillLevel(level:Level):void {
             level.dispatchEvent(new Event(Level.EVENT_KILL));
+			
+			//Vies
+			if (Vies == 0) {
+				Destroy();
+				Cube.gotoHighScoreFromJeu(Score); //Obligé de mettre après, sinon le destroy killAll !
+			}
         }
 
         public function Destroy():void {

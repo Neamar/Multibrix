@@ -58,6 +58,12 @@
 		
 		[Embed(source="Assets/Nuage1.png")]
 		public static const Img_Nuage1:Class;
+		
+		[Embed(source="Assets/Nuage2.png")]
+		public static const Img_Nuage2:Class;
+		
+		[Embed(source="Assets/Nuage3.png")]
+		public static const Img_Nuage3:Class;
     }
 }
 
