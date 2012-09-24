@@ -23,7 +23,6 @@
 			Goodies.push(new GoodBadDie("Passe Muraille", PasseMuraille_Enable, 5, PasseMuraille_Disable));
 			
 			Badies.push(new GoodBadDie("- 1 Vie", RemoveOneLife, 0, null, true));
-			Badies.push(new GoodBadDie("Contrôles Communs", ControlesCommuns_Enable, 5, ControlesCommuns_Disable));
 			Badies.push(new GoodBadDie("Disparition", Disparition_Enable, 4, Disparition_Disable));
 		}
 		
@@ -41,16 +40,6 @@
 		public function RemoveOneLife(level:Level):void {
 			if (Parent.Vie > 1)
 				Parent.Vie --;
-		}
-
-		/**
-		* Controles Communs
-		*/
-		public function ControlesCommuns_Enable(level:Level):void {
-		Parent.ControlesCommuns = true;
-		}
-		public function ControlesCommuns_Disable(level:Level):void {
-		Parent.ControlesCommuns = false;
 		}
 
 		/**

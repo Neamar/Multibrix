@@ -43,8 +43,7 @@
 		private var LevelsConteneur:Sprite = new Sprite();
 		//private var LettresConteneur:Sprite = new Sprite();
 		public var TextesConteneur:Sprite = new Sprite();
-		
-		public var ControlesCommuns:Boolean = false;
+
 
         public function Jeu() {
             AddLevelTimely();
@@ -243,12 +242,8 @@
 		
 		private function dispatch_move(evt:String):void
 		{
-			if (!ControlesCommuns) {
-				LevelSelected.dispatchEvent(new Event(evt));
-			} else {
-				for each (var level:Level in Levels_Tab) {
-					level.dispatchEvent(new Event(evt));
-				}
+			for each (var level:Level in Levels_Tab) {
+				level.dispatchEvent(new Event(evt));
 			}
 			
 			if (!aBouge)
