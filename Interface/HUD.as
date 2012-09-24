@@ -12,7 +12,6 @@
 		public static var TheHUD:HUD;
 		
 		private var Score_Txt:TextField = new TextField();
-		private var Vie_Txt:TextField = new TextField();
 		
 		public function HUD() {
 			//Score
@@ -26,29 +25,11 @@
 			Score_Txt.selectable = false;
 			addChild(Score_Txt);
 			MAJ_Score();
-			
-			//Vie
-			Vie_Txt.border = true;
-			Vie_Txt.borderColor = 0xFF0000;
-			Vie_Txt.background = true;
-			Vie_Txt.backgroundColor = 0x000000;
-			Vie_Txt.autoSize = TextFieldAutoSize.RIGHT;
-			Vie_Txt.y = Score_Txt.y;
-			Vie_Txt.selectable = false;
-			addChild(Vie_Txt);
-			MAJ_Vie();
 		}
 		
 		public function MAJ_Score():void {
 			Score_Txt.text = Jeu.JeuActuel.Score.toString();
 			Score_Txt.setTextFormat(new TextFormat("Arial", 20, 0xFFFFFF));
-			Vie_Txt.x = Score_Txt.x - Vie_Txt.width - 10;
-		}
-		
-		public function MAJ_Vie():void {
-			var V:String = (Jeu.JeuActuel.Vie > 1) ? "Vies" : "Vie";
-			Vie_Txt.text = Jeu.JeuActuel.Vie.toString() + " " + V;
-			Vie_Txt.setTextFormat(new TextFormat("Arial", 20, 0xFFFFFF));
 		}
 	}
 }

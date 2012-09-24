@@ -218,26 +218,6 @@
             while (Obstacles.length > Math.floor(NombreColonnes / 2) + 2)
                 nettoyerColonne(Obstacles.pop());
 
-            var ToMove:Array = new Array();
-            for (var i:int = 0; i < ObstaclesContainer.numChildren; i++)
-                ToMove.push(ObstaclesContainer.getChildAt(i));
-
-            TweenMax.allTo(ToMove, 2, {
-                x: -ObstaclesContainer.x + (NombreColonnes*Global.CaseLongueur) + 20,
-                y:(Global.NOMBRE_ETAGES_NIVEAU * Global.CaseHauteur) / 2 - Global.CaseHauteur / 2,
-                rotation:360
-                } );
-
-            TweenMax.to(Balle, 2, {
-                scaleX:0.01,
-                scaleY:0.01
-                });
-			
-			TweenMax.to(this, 2, {
-				alpha:0,
-				onComplete:lancerKill
-				});
-				
 			this.graphics.clear();
 			estTerminate = true;
         }

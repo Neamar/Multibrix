@@ -31,15 +31,14 @@
 		 * Ajoute une vie
 		 */
 		public function AddOneLife(level:Level):void {
-			Parent.Vie ++;
+			//Parent.Vies++;
 		}
 		
 		/**
 		 * Enlève une vie
 		 */
 		public function RemoveOneLife(level:Level):void {
-			if (Parent.Vie > 1)
-				Parent.Vie --;
+			//Parent.Vies--;
 		}
 
 		/**

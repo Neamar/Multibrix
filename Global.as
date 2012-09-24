@@ -30,6 +30,7 @@
         /**
          * Concernant les niveaux :
          */
+		public static var NOMBRE_NIVEAUX:int = 3;
         public static var NOMBRE_ETAGES_NIVEAU:int = 3;
 		public static var Cadence:Number = 1;
         public static var Densite:Number = 0.5;
@@ -37,11 +38,10 @@
         public static var CaseLongueur:int = 20;
         public static var CaseHauteur:int = 20;
 		
-		public static const WALL_INVINCIBLE_x:Number = .33;//Proportion qu'on ne peut pas dépasser derrirèe le mur de protection
         public static const TEMPS_DEPLACEMENT:Number = .5;
         public static const DELTA_ERR:Number = 2;
-        public static var GOOD_DENSITY:Number = 0.2;
-        public static var BAD_DENSITY:Number = 0.2;
+        public static var GOOD_DENSITY:Number = 0.05;
+        public static var BAD_DENSITY:Number = 0.05;
         public static var GOODIE:Boolean = true;
         public static var BADIE:Boolean = false;
 
@@ -56,6 +56,9 @@
 		 */
 		[Embed(source="Assets/IcySun & Neamar Logo.png")]
 		public static const Img_Logo:Class;
+		
+		[Embed(source="Assets/Nuage1.png")]
+		public static const Img_Nuage1:Class;
     }
 }
 

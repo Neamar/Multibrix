@@ -30,7 +30,7 @@
 		private var GBHandler:GoodBadieJeuHandler;
 		
 		private var $score:int = 0;
-		private var $vie:int = 4;
+		public var Vies:int = Global.NOMBRE_NIVEAUX;
 		
 		private var LevelsConteneur:Sprite = new Sprite();
 		public var TextesConteneur:Sprite = new Sprite();
@@ -54,9 +54,8 @@
             addEventListener(Event.ENTER_FRAME, Event_Iterate);
             stage.addEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
 			
-			AddLevel();
-			AddLevel();
-			AddLevel();
+			for (var i:int = 0; i < Global.NOMBRE_NIVEAUX; i++)
+				AddLevel();
         }
 
         private function AddLevel():void {
@@ -74,11 +73,6 @@
         }
 
         private function RemoveLevel(level:Level):void {
-            //Level
-            var index:int = MyTools.RemoveFromVector(level, Levels_Tab);
-
-			Level.targetHeight = Global.HEIGHT / Levels_Tab.length;
-
             ActivateLevelListeners(level, false);
 
             level.dispatchEvent(new Event(Level.EVENT_TERMINATE));
@@ -141,13 +135,6 @@
 			$score = value;
 			HUD.TheHUD.MAJ_Score();
 		}
-		
-		public function get Vie():int { return $vie; }
-		
-		public function set Vie(value:int):void {
-			$vie = value;
-			HUD.TheHUD.MAJ_Vie();
-		}
 
         private function Event_Iterate(evt:Event):void {
             if (!Pause) {
@@ -192,17 +179,13 @@
         private function LevelLost(evt:Event):void {
             TerminateLevel(evt);
             TweenMax.fromTo(this, 0.2, {removeTint:true}, { yoyo:true, repeat:1, colorTransform: { tint:0xcff0000, tintAmount:0.5 }} ); //Besoin d'un fromTo sinon problème d'overwrite
+	
+			Vies--;
 			
-			//Si il n'y a plus de niveau
-			if (Levels_Tab.length == 0)
-				AddLevel();
-				
 			//Vies
-			if (Vie <= 0) {
+			if (Vies == 0) {
 				Destroy();
-				Cube.gotoHighScoreFromJeu(Score); //Obligé de mettre apres, sinon le destroy killAll !
-			} else {
-				Vie --;
+				Cube.gotoHighScoreFromJeu(Score); //Obligé de mettre après, sinon le destroy killAll !
 			}
         }
 		

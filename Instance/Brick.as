@@ -1,6 +1,7 @@
 ﻿package Instance
 {
-    import flash.display.Sprite;
+	import flash.display.Bitmap;
+	import flash.display.Sprite;
     import flash.geom.Point;
 
     /**
@@ -27,6 +28,10 @@
             this.graphics.lineStyle(1, Global.WHITE);
 			this.graphics.beginFill(Global.BLACK);
             this.graphics.drawRect(0, 0, Global.CaseLongueur, Global.CaseHauteur);
+			//trace(Global.CaseLongueur, Global.CaseHauteur);
+			//var img_nuage:Bitmap = new Global.Img_Nuage1();
+			//addChild(img_nuage);
+			
 
             this.x = x;
             this.y = y;
