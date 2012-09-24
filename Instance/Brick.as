@@ -27,8 +27,8 @@
             Parent.addChild(this);
             this.graphics.lineStyle(1, Global.WHITE);
 			this.graphics.beginFill(Global.BLACK);
-            this.graphics.drawRect(0, 0, Global.CaseLongueur, Global.CaseHauteur);
-			//trace(Global.CaseLongueur, Global.CaseHauteur);
+            this.graphics.drawRect(0, 0, Global.CaseTaille, Global.CaseTaille);
+			//trace(Global.CaseTaille, Global.CaseTaille);
 			//var img_nuage:Bitmap = new Global.Img_Nuage1();
 			//addChild(img_nuage);
 			
@@ -43,7 +43,7 @@
          */
         public function destroy(Rapide:Boolean=true):void
         {
-            if(parent!=null)
+            if (parent != null)
                 parent.removeChild(this);
         }
 

@@ -30,6 +30,8 @@
 		
 		private var $score:int = 0;
 		public var Vies:int = Global.NOMBRE_NIVEAUX;
+		public var Vitesse:int = 1;
+		public var nbFrames:int = 0;
 		
 		private var LevelsConteneur:Sprite = new Sprite();
 
@@ -58,15 +60,15 @@
         private function AddLevel():void {
             //Level
             var level:Level = new Level();
-            level.y = Global.HEIGHT;
+            level.y = Global.HEIGHT / Global.NOMBRE_NIVEAUX * (Levels_Tab.length);
             LevelsConteneur.addChild(level);
             Levels_Tab.push(level);
 
-           Level.targetHeight = Global.HEIGHT / Levels_Tab.length;
+           //Level.targetHeight = Global.HEIGHT / Global.NOMBRE_NIVEAUX;
 
             ActivateLevelListeners(level, true);
 			
-			RePlaceAll_Y();
+			//RePlaceAll_Y();
         }
 
         private function RemoveLevel(level:Level):void {
@@ -76,7 +78,7 @@
 
             TweenMax.delayedCall(2, KillLevel, [level]);
 			
-			RePlaceAll_Y();
+			//RePlaceAll_Y();
         }
 
         private function ActivateLevelListeners(level:Level, yes:Boolean):void {
@@ -93,16 +95,18 @@
             }
         }
 		
-		private function RePlaceAll_Y():void {
-			var nbr:int = Levels_Tab.length;
-
-            for (var i:String in Levels_Tab) {
+		//private function RePlaceAll_Y():void {
+			//var nbr:int = Levels_Tab.length;
+//
+            //for (var i:String in Levels_Tab) {
 				//Levels
-                var level:Level = Levels_Tab[i];
-				level.targetY = int(i) * Level.targetHeight;
-                TweenMax.to(level, 1, { delay:(nbr - int(i)) * 0.05, height:Level.targetHeight, y:level.targetY, ease:Elastic.easeOut } );
-				}
-		}
+                //var level:Level = Levels_Tab[i];
+				//level.targetY = int(i) * Level.targetHeight;
+                //TweenMax.to(level, 1, { delay:(nbr - int(i)) * 0.05, height:Level.targetHeight, y:level.targetY, ease:Elastic.easeOut } );
+				//level.height = Level.targetHeight;
+				//level.y = level.targetY;
+				//}
+		//}
 
         public function get Pause():Boolean { return $pause; }
 
@@ -129,7 +133,14 @@
 
         private function Event_Iterate(evt:Event):void {
             if (!Pause) {
-				Score += Levels_Tab.length;			//Obligé de mettre avant sinon ça pose probleme lors du game over
+				nbFrames++;
+				
+				if (nbFrames % 500 == 0)
+				{
+					Vitesse++;
+				}
+				
+				Score += Vies;
                 stage.dispatchEvent(new Event(Level.EVENT_ITERATE));
 			}
         }

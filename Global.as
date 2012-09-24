@@ -32,11 +32,10 @@
          */
 		public static var NOMBRE_NIVEAUX:int = 3;
         public static var NOMBRE_ETAGES_NIVEAU:int = 3;
-		public static var Cadence:Number = 1;
         public static var Densite:Number = 0.5;
-
-        public static var CaseLongueur:int = 20;
-        public static var CaseHauteur:int = 20;
+        
+        public static var CaseTaille:int = HEIGHT / (NOMBRE_NIVEAUX * NOMBRE_ETAGES_NIVEAU);
+		//public static var CaseTaille:int = CaseTaille;
 		
         public static const TEMPS_DEPLACEMENT:Number = .5;
         public static const DELTA_ERR:Number = 2;

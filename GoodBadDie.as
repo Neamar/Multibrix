@@ -16,7 +16,7 @@
 		private var End:Function;
 		private var Cumulatif:Boolean;
 		
-		private var levelsConcerned:Dictionary = new Dictionary(); //Keys : Level | Value : {bonusText:BonusText, caller:TweenMax} (le BonusText est utile seulement en non Cumulatif)
+		private var levelsConcerned:Dictionary = new Dictionary();
 		
 		public function GoodBadDie(name:String, init:Function, duration:Number = 0, end:Function = null, cumulative:Boolean = false) {
 			Name = name;
@@ -37,7 +37,6 @@
 				} else {
 					if (levelsConcerned[levelConcerned].caller != null) //Car dans le cas des bonus sans temps, pas de caller ! (si Duration  = 0)
 						levelsConcerned[levelConcerned].caller.kill();	//Detruit le delayedCall de Ending
-					levelsConcerned[levelConcerned].bonusText.PrepareToDestroy(); //Detruit l'ancien BonusText
 				}
 			}
 			

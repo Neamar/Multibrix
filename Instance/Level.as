@@ -26,11 +26,6 @@
         public static const EVENT_GOT_GOODIE:String = "got_goodie";
         public static const EVENT_GOT_BADIE:String = "got_baddie";
         public static const EVENT_FRAME:String = "frame";
-
-        /**
-         * La rapidité à laquelle le niveau s'écoule
-         */
-        public var Cadence:Number = Global.Cadence;
 		
 		 /**
          * La densité de briques à l'intérieur du level, entre 0 et 1 (0 : une brique maximum, 1 : NombreLignes-1 briques minimum)
@@ -74,7 +69,7 @@
         /**
          * La hauteur, utilisée en variable de retenue pour les setter et getters associés height.
          */
-        private var _height:Number;
+        //private var _height:Number = Global.HEIGHT/Global.NOMBRE_NIVEAUX;
 
         /**
          * La liste des obstacles qui composent le niveau
@@ -109,12 +104,12 @@
 		/**
          * height cible lors d'un Tween.
          */
-		public static var targetHeight:int;
+		//public static var targetHeight:int;
 		
 		/**
          * y cible lors d'un Tween.
          */
-		public var targetY:int;
+		//public var targetY:int;
 
         /**
          * Constructeur du niveau. Initialise la variable ObstaclesContainer et demande la première génération des obstacles.
@@ -125,8 +120,8 @@
 			GBHandler = new GoodBadieHandler(this);
 			
 			//Définition du terrain
-            NombreColonnes = 3;// Global.WIDTH / Global.CaseLongueur;
-            _height = Global.HEIGHT;
+            NombreColonnes = 30;// Global.WIDTH / Global.CaseTaille;       
+			//height = Global.HEIGHT / Global.NOMBRE_NIVEAUX;			
             Obstacles = new Vector.<Vector.<Brick> >();
             majTerrain();
 
@@ -135,16 +130,16 @@
 
 			//Dessin de la balle
 			//var Dessin:Shape = new Shape();
-			var matr:Matrix = new Matrix(); matr.createGradientBox(Global.CaseHauteur, Global.CaseHauteur, 0, -Global.CaseHauteur/2, -Global.CaseHauteur/2);
+			var matr:Matrix = new Matrix(); matr.createGradientBox(Global.CaseTaille, Global.CaseTaille, 0, -Global.CaseTaille/2, -Global.CaseTaille/2);
 			Balle.graphics.beginGradientFill(GradientType.RADIAL, [0xFFFFFF, 0x000000], [1, 0], [50, 255], matr);
-			Balle.graphics.drawCircle(0 , 0, Global.CaseHauteur/2);
+			Balle.graphics.drawCircle(0 , 0, Global.CaseTaille/2);
 			
 			
 			addChild(Balle);
 			
 			//Par défaut, la bille est placée à trois colonnes du départ
-            Balle.x = 3 * Global.CaseLongueur + Global.CaseLongueur / 2;
-            Balle.y = Balle_y = (Math.round(Global.NOMBRE_ETAGES_NIVEAU / 2) + .5) * Global.CaseHauteur;
+            Balle.x = 3 * Global.CaseTaille + Global.CaseTaille / 2;
+            Balle.y = Balle_y = (Math.round(Global.NOMBRE_ETAGES_NIVEAU / 2) + .5) * Global.CaseTaille;
 			Balle.graphics.lineStyle(2,Global.BLUE);
             //Balle.graphics.moveTo(0, 0);
             //Balle.graphics.lineTo(20, 0);
@@ -156,8 +151,8 @@
             this.addEventListener(Level.EVENT_TERMINATE,prepareDestroy);//Préparer le kill
             this.addEventListener(Level.EVENT_UP, deplacerBalleHaut);//Mouvement vers le haut
             this.addEventListener(Level.EVENT_DOWN, deplacerBalleBas);//Mouvement vers le bas
-			this.addEventListener(Level.EVENT_FRAME,decalerNiveau);//Décaler le niveau vers la gauche
-            this.addEventListener(Level.EVENT_FRAME,majTerrain);//Rajouter des obstacles si nécessaires
+			this.addEventListener(Level.EVENT_FRAME, decalerNiveau);//Décaler le niveau vers la gauche
+            this.addEventListener(Level.EVENT_FRAME, majTerrain);//Rajouter des obstacles si nécessaires
             this.addEventListener(Level.EVENT_FRAME, deplacerBalle);//Déplacer la balle
 			
         }
@@ -222,45 +217,38 @@
 			estTerminate = true;
         }
 
-        /**
-         * Demande à killer le niveau.
-         * Envoyé à la fin de l'animation TERMINATE
-         */
-        private function lancerKill():void
-        {
-            this.dispatchEvent(new Event(Level.EVENT_KILL));
-        }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
         //GESTION DE LA TAILLE DU NIVEAU
 
-        /**
-         * Règle la nouvelle taille du niveau. Le scaleX est automatiquement ajusté à scaleY
-         * @param La nouvelle taille.
-         */
-        public override function set height(val:Number):void
-        {
+        ///**
+         //* Règle la nouvelle taille du niveau. Le scaleX est automatiquement ajusté à scaleY
+         //* @param La nouvelle taille.
+         //*/
+        //public override function set height(val:Number):void
+        //{
             //Enregistrer la nouvelle taille et contraindre à garder un affichage proprotionné
-            super.height = _height = val;
-            this.scaleX = this.scaleY;
-
+            //super.height = _height = val;
+            //this.scaleX = this.scaleY;
+//
             //Màj le nombre de colonnes
-            NombreColonnes = Global.WIDTH / (Global.CaseLongueur * scaleX);
-			
+            //NombreColonnes = Global.WIDTH / (Global.CaseTaille * scaleX);
+			//
 			//Bordure
-			if (!this.estTerminate)
-			{
-				this.graphics.clear();
-				this.graphics.lineStyle(1, Global.RED);
-				this.graphics.drawRect(0, 0, Global.WIDTH / scaleX, Global.NOMBRE_ETAGES_NIVEAU * Global.CaseHauteur);
-			}
-        }
-
-        /**
-         * Récupère la taille
-         * @return La taille
-         */
-        public override function get height():Number { return _height; }
+			//if (!this.estTerminate)
+			//{
+				//this.graphics.clear();
+				//this.graphics.lineStyle(1, Global.RED);
+				//this.graphics.drawRect(0, 0, Global.WIDTH / scaleX, Global.NOMBRE_ETAGES_NIVEAU * Global.CaseTaille);
+			//}
+			//trace("e", val);
+        //}
+//
+        ///**
+         //* Récupère la taille
+         //* @return La taille
+         //*/
+        //public override function get height():Number { return _height; }
 
         /**
          * Récupérer le premier bloc dans la colonne passée en paramètre, utile pour connaitre ses coordonnées x.
@@ -289,7 +277,7 @@
             //Supprimer les élements qui n'ont plus rien à faire là
             if (Obstacles.length != 0)
             {
-                while (GetAnItemIn(Obstacles[0]).toGlobal().x <= -Global.CaseLongueur)
+                while (GetAnItemIn(Obstacles[0]).toGlobal().x <= -Global.CaseTaille)
                 {
                     nettoyerColonne(Obstacles.shift());
                     Offset++;
@@ -313,7 +301,7 @@
                     if (NouvelleColonne[y] == null)//Si la colonne est vide
                     {
                         i++;
-                        NouvelleColonne[y] = new Brick(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseLongueur * 2, y * Global.CaseHauteur);
+                        NouvelleColonne[y] = new Brick(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseTaille * 2, y * Global.CaseTaille);
                     }
                 }
 
@@ -322,14 +310,14 @@
                     i = Math.floor(Global.NOMBRE_ETAGES_NIVEAU * Math.random());
                     while (NouvelleColonne[i] != null) { i = Math.floor(Global.NOMBRE_ETAGES_NIVEAU * Math.random()); }
 
-                    NouvelleColonne[i] = new GoodBadDieDisplay(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseLongueur * 2, i * Global.CaseHauteur,NouvelleColonne,Global.GOODIE);
+                    NouvelleColonne[i] = new GoodBadDieDisplay(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseTaille * 2, i * Global.CaseTaille,NouvelleColonne,Global.GOODIE);
                 }
                 else if (Math.random() < BadieDensity)
                 {
                     i = Math.floor(Global.NOMBRE_ETAGES_NIVEAU * Math.random());
                     while (NouvelleColonne[i] != null) { i = Math.floor(Global.NOMBRE_ETAGES_NIVEAU* Math.random()); }
 
-                    NouvelleColonne[i] = new GoodBadDieDisplay(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseLongueur * 2, i * Global.CaseHauteur, NouvelleColonne, Global.BADIE);
+                    NouvelleColonne[i] = new GoodBadDieDisplay(this.ObstaclesContainer, (Obstacles.length + Offset) * Global.CaseTaille * 2, i * Global.CaseTaille, NouvelleColonne, Global.BADIE);
                 }
             }
         }
@@ -355,12 +343,12 @@
         private function getBrick(Gx:int, Gy:int):Brick
         {
 			//Récupérer le numéro de colonne sur lequel se trouve le point.
-            var i:int = (Gx - (ObstaclesContainer.x + GetAnItemIn(Obstacles[0]).x)) / Global.CaseLongueur;
+            var i:int = (Gx - (ObstaclesContainer.x + GetAnItemIn(Obstacles[0]).x)) / Global.CaseTaille;
             if (PasseMuraille || i % 2 == 1)
                 return null;
-            else if (i >= 0 && Gy > 0 && Gy < Global.NOMBRE_ETAGES_NIVEAU * Global.CaseHauteur)
+            else if (i >= 0 && Gy > 0 && Gy < Global.NOMBRE_ETAGES_NIVEAU * Global.CaseTaille)
             {
-                var Devant:Brick = Obstacles[i / 2][Math.floor(Gy / Global.CaseHauteur)];
+                var Devant:Brick = Obstacles[i / 2][Math.floor(Gy / Global.CaseTaille)];
 				
 				//On vient de prendre un goodie/badie.
 				if (Devant != null && Devant is GoodBadDieDisplay)
@@ -396,12 +384,12 @@
         private function deplacerBalle(e:Event=null):void
         {
             //Le x sur lequel la balle reste au repos
-            var PositionEquilibre:int = (NombreColonnes / 2)*Global.CaseLongueur;
-            var Devant:Brick = getBrick(Balle.x + (Global.CaseLongueur / 2 - 1), Balle.y);
+            var PositionEquilibre:int = (NombreColonnes / 2)*Global.CaseTaille;
+            var Devant:Brick = getBrick(Balle.x + (Global.CaseTaille / 2 - 1), Balle.y);
 
             if (Devant != null)
             {
-                if (Balle.x + (Global.CaseLongueur / 2 - 1) - (ObstaclesContainer.x + Devant.x) > 0 )
+                if (Balle.x + (Global.CaseTaille / 2 - 1) - (ObstaclesContainer.x + Devant.x) > 0 )
                 {//Si cette condition est validée, on a "pénétré" un bloc, il faut donc en sortir.
                     Balle.x--;
                 }
@@ -413,8 +401,6 @@
 			//Dommage, you die !
             if (Balle.x <= 0)
 				this.dispatchEvent(new Event(EVENT_LOST));
-			else //Mettre à jour le alpha du niveau.
-				this.alpha = 1 - .5*(Balle.x / PositionEquilibre);
         }
 
         /**
@@ -423,14 +409,14 @@
          */
         public function deplacerBalleHaut(e:Event):void
         {
-			var QuasiDerriereDessus:Brick = getBrick(Balle.x - (Global.CaseLongueur / 2 - Global.DELTA_ERR), Balle_y - Global.CaseHauteur);
-			var QuasiDevantDessus:Brick = getBrick(Balle.x + (Global.CaseLongueur / 2 - Global.DELTA_ERR), Balle_y - Global.CaseHauteur);
-            if (Balle_y > Global.CaseHauteur
-            && getBrick(Balle.x - (Global.CaseLongueur / 2 - Global.DELTA_ERR), Balle_y - Global.CaseHauteur) == null
-            && getBrick(Balle.x + (Global.CaseLongueur / 2 - Global.DELTA_ERR), Balle_y - Global.CaseHauteur) == null)
+			var QuasiDerriereDessus:Brick = getBrick(Balle.x - (Global.CaseTaille / 2 - Global.DELTA_ERR), Balle_y - Global.CaseTaille);
+			var QuasiDevantDessus:Brick = getBrick(Balle.x + (Global.CaseTaille / 2 - Global.DELTA_ERR), Balle_y - Global.CaseTaille);
+            if (Balle_y > Global.CaseTaille
+            && getBrick(Balle.x - (Global.CaseTaille / 2 - Global.DELTA_ERR), Balle_y - Global.CaseTaille) == null
+            && getBrick(Balle.x + (Global.CaseTaille / 2 - Global.DELTA_ERR), Balle_y - Global.CaseTaille) == null)
             {
-                Balle_y -= Global.CaseHauteur;
-                TweenMax.to(Balle, Global.TEMPS_DEPLACEMENT, { y:Balle_y } );
+                Balle_y -= Global.CaseTaille;
+                TweenMax.to(Balle, Global.TEMPS_DEPLACEMENT / Jeu.JeuActuel.Vitesse, { y:Balle_y } );
             }
         }
 
@@ -444,12 +430,12 @@
             //-on n'est pas tout en bas
             //-devant, c'est libre
             //-derrière, c'est libre (ne pas descendre quand on est dans un goulet)
-            if (Balle_y < (Global.NOMBRE_ETAGES_NIVEAU - 1) * Global.CaseHauteur
-            && getBrick(Balle.x - (Global.CaseLongueur / 2 - Global.DELTA_ERR), Balle_y + Global.CaseHauteur) == null
-            && getBrick(Balle.x + (Global.CaseLongueur/2 - Global.DELTA_ERR), Balle_y + Global.CaseHauteur) == null)
+            if (Balle_y < (Global.NOMBRE_ETAGES_NIVEAU - 1) * Global.CaseTaille
+            && getBrick(Balle.x - (Global.CaseTaille / 2 - Global.DELTA_ERR), Balle_y + Global.CaseTaille) == null
+            && getBrick(Balle.x + (Global.CaseTaille/2 - Global.DELTA_ERR), Balle_y + Global.CaseTaille) == null)
             {
-                Balle_y += Global.CaseHauteur;
-                TweenMax.to(Balle, Global.TEMPS_DEPLACEMENT, { y:Balle_y } );
+                Balle_y += Global.CaseTaille;
+                TweenMax.to(Balle, Global.TEMPS_DEPLACEMENT / Jeu.JeuActuel.Vitesse, { y:Balle_y } );
             }
         }
 
@@ -470,15 +456,20 @@
          */
         public function ajouterFrame(e:Event):void
         {
+			this.graphics.clear();
+			this.graphics.lineStyle(1, Global.RED);
+			this.graphics.drawRect(0, 0, 200, 200);
+			
             DerniereAction++;
             //Par défaut, ne rien faire sauf si on atteint la cadence nécessaire
-            while(DerniereAction >= Cadence)
+            for (var i:int = 0; i < Jeu.JeuActuel.Vitesse; i++ )
             {
 				//Envoyer un évenement pour faire les màj de niveau
 				dispatchEvent(new Event(Level.EVENT_FRAME));
-
-                //Descendre le compteur
-                DerniereAction -= Cadence;
+				
+				//Jeu perdu :(
+				if (Jeu.JeuActuel == null)
+					break;
             }
         }
     }

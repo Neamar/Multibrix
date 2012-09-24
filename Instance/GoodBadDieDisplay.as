@@ -37,7 +37,7 @@
 			this.graphics.clear();
 			this.graphics.lineStyle(1, IsGoodie ? Global.GREEN : Global.RED);
 			this.graphics.beginFill(Global.BLACK);
-            this.graphics.drawRoundRect(0, 0, Global.CaseLongueur, Global.CaseHauteur,10,10);
+            this.graphics.drawRoundRect(0, 0, Global.CaseTaille, Global.CaseTaille,10,10);
 
         }
 
@@ -54,7 +54,7 @@
             {
                 Container[Container.indexOf(this)] = null;
                 Container = null;
-                TweenMax.to(this, .5, { scaleX:.1, scaleY:.1, x:this.x + Global.CaseLongueur / 2, y:this.y + Global.CaseHauteur / 2, onComplete:super.destroy } );
+                TweenMax.to(this, .5, { scaleX:.1, scaleY:.1, x:this.x + Global.CaseTaille / 2, y:this.y + Global.CaseTaille / 2, onComplete:super.destroy } );
             }
         }
     }
