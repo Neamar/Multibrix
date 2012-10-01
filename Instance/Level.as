@@ -56,10 +56,11 @@
 		 * Si true, toutes les briques sont négligées et le terrain est vu comme vide.
 		 */
 		public var PasseMuraille:Boolean = false;
+		
         /**
          * Le ObstaclesContainer qui contient réellement le niveau.
          */
-        private var ObstaclesContainer:Sprite = new Sprite();
+        public var ObstaclesContainer:Sprite = new Sprite();
 
         /**
          * La balle du jeu

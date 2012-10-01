@@ -24,10 +24,12 @@
 		public function goodie_enable_passemuraille():void
 		{
 			Parent.PasseMuraille = true;
+			TweenLite.to(Parent.ObstaclesContainer, 1, {alpha:.2});
 		}
 		public function goodie_disable_passemuraille():void
 		{
 			Parent.PasseMuraille = false;
+			TweenLite.to(Parent.ObstaclesContainer, 1, {alpha:1})
 		}
 	}
 	
